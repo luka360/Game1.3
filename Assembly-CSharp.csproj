@@ -51,11 +51,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\_Scripts\CameraCollision.cs" />
-     <Compile Include="Assets\_Scripts\CameraFollow.cs" />
-     <Compile Include="Assets\_Scripts\HitCollider.cs" />
-     <Compile Include="Assets\_Scripts\OrbitCamera.cs" />
-     <Compile Include="Assets\_Scripts\PlayerMovement.cs" />
+     <Compile Include="Assets\_Scripts\Camera\CameraCollision.cs" />
+     <Compile Include="Assets\_Scripts\Camera\CameraFollow.cs" />
+     <Compile Include="Assets\_Scripts\Camera\OrbitCamera.cs" />
+     <Compile Include="Assets\_Scripts\Enemy\EnemyMovement.cs" />
+     <Compile Include="Assets\_Scripts\Player\HitCollider.cs" />
+     <Compile Include="Assets\_Scripts\Player\PlayerMovement.cs" />
      <Compile Include="Assets\PostProcessing\Runtime\Attributes\GetSetAttribute.cs" />
      <Compile Include="Assets\PostProcessing\Runtime\Attributes\MinAttribute.cs" />
      <Compile Include="Assets\PostProcessing\Runtime\Attributes\TrackballAttribute.cs" />
