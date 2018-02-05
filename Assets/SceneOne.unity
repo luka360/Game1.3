@@ -608,6 +608,8 @@ GameObject:
   - component: {fileID: 143265194}
   - component: {fileID: 143265195}
   - component: {fileID: 143265192}
+  - component: {fileID: 143265199}
+  - component: {fileID: 143265200}
   m_Layer: 0
   m_Name: RedGuy
   m_TagString: Enemy
@@ -722,6 +724,35 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &143265199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 143265191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 725529822c140f648afba13b9a56b30f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeBetweenAttacks: 0.5
+  attackDamage: 10
+--- !u!114 &143265200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 143265191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fd7c7ca2d27f3c489949de780f5570f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingHealth: 100
+  currentHealth: 0
+  sinkSpeed: 2.5
+  scoreValue: 10
+  deathClip: {fileID: 0}
 --- !u!4 &148173100 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 0b44631252671d245a37e16e8b833830, type: 3}
@@ -6236,6 +6267,7 @@ GameObject:
   - component: {fileID: 1086174074}
   - component: {fileID: 1086174075}
   - component: {fileID: 1086174076}
+  - component: {fileID: 1086174077}
   m_Layer: 0
   m_Name: DefaultAvatar
   m_TagString: Player
@@ -6297,6 +6329,24 @@ MonoBehaviour:
   terminalVelocity: -20
   minFall: -4
   kickForce: 3
+--- !u!114 &1086174077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1086174073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9789828cf9684a34498f5802d6de6299, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingHealth: 100
+  currentHealth: 0
+  healthSlider: {fileID: 292953070}
+  damageImage: {fileID: 52790797}
+  deathClip: {fileID: 0}
+  flashSpeed: 5
+  flashColour: {r: 1, g: 0, b: 0, a: 0.1}
 --- !u!1001 &1091405737
 Prefab:
   m_ObjectHideFlags: 0
