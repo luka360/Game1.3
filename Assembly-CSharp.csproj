@@ -54,9 +54,13 @@
      <Compile Include="Assets\_Scripts\Camera\CameraCollision.cs" />
      <Compile Include="Assets\_Scripts\Camera\CameraFollow.cs" />
      <Compile Include="Assets\_Scripts\Camera\OrbitCamera.cs" />
+     <Compile Include="Assets\_Scripts\Enemy\EnemyAttack.cs" />
+     <Compile Include="Assets\_Scripts\Enemy\EnemyHealth.cs" />
      <Compile Include="Assets\_Scripts\Enemy\EnemyMovement.cs" />
      <Compile Include="Assets\_Scripts\Player\HitCollider.cs" />
+     <Compile Include="Assets\_Scripts\Player\PlayerHealth.cs" />
      <Compile Include="Assets\_Scripts\Player\PlayerMovement.cs" />
+     <Compile Include="Assets\_Scripts\Player\PlayerShooting.cs" />
      <Compile Include="Assets\PostProcessing\Runtime\Attributes\GetSetAttribute.cs" />
      <Compile Include="Assets\PostProcessing\Runtime\Attributes\MinAttribute.cs" />
      <Compile Include="Assets\PostProcessing\Runtime\Attributes\TrackballAttribute.cs" />

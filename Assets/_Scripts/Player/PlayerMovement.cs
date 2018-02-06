@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour {
 
 	private CharacterController _charController;
 	private Animator _animator;
+    private GameObject enemy;
 
 	// Use this for initialization
 	void Start() {
@@ -34,6 +35,7 @@ public class PlayerMovement : MonoBehaviour {
 
 		_charController = GetComponent<CharacterController>();
 		_animator = GetComponent<Animator>();
+        enemy = GameObject.FindGameObjectWithTag("Enemy");
 	}
 
 	// Update is called once per frame
@@ -62,7 +64,7 @@ public class PlayerMovement : MonoBehaviour {
 			movement = target.TransformDirection(movement);
 			target.rotation = tmp;
 
-			// face movement direction
+			//face movement direction
 			//transform.rotation = Quaternion.LookRotation(movement);
 			Quaternion direction = Quaternion.LookRotation(movement);
 			transform.rotation = Quaternion.Lerp(transform.rotation,
