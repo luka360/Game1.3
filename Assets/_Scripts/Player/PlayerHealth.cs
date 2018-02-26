@@ -25,9 +25,9 @@ public class PlayerHealth : MonoBehaviour
     {
         // Setting up the references.
         anim = GetComponent<Animator>();
-        playerAudio = GetComponent<AudioSource>();
+        //playerAudio = GetComponent<AudioSource>();
         playerMovement = GetComponent<PlayerMovement>();
-        playerShooting = GetComponentInChildren<PlayerShooting>();
+        //playerShooting = GetComponentInChildren<PlayerShooting>();
 
         // Set the initial health of the player.
         currentHealth = startingHealth;
@@ -36,7 +36,7 @@ public class PlayerHealth : MonoBehaviour
 
     void Update()
     {
-        // If the player has just been damaged...
+       /* // If the player has just been damaged...
         if (damaged)
         {
             // ... set the colour of the damageImage to the flash colour.
@@ -50,7 +50,7 @@ public class PlayerHealth : MonoBehaviour
         }
 
         // Reset the damaged flag.
-        damaged = false;
+        damaged = false;*/
     }
 
 
@@ -64,9 +64,10 @@ public class PlayerHealth : MonoBehaviour
 
         // Set the health bar's value to the current health.
         healthSlider.value = currentHealth;
+        Debug.Log("Current health: " + currentHealth);
 
         // Play the hurt sound effect.
-        playerAudio.Play();
+        //playerAudio.Play();
 
         // If the player has lost all it's health and the death flag hasn't been set yet...
         if (currentHealth <= 0 && !isDead)
@@ -83,18 +84,22 @@ public class PlayerHealth : MonoBehaviour
         isDead = true;
 
         // Turn off any remaining shooting effects.
-        playerShooting.DisableEffects();
+        //playerShooting.DisableEffects();
 
         // Tell the animator that the player is dead.
-        anim.SetTrigger("Die");
+        //anim.SetTrigger("Die");
 
         // Set the audiosource to play the death clip and play it (this will stop the hurt sound from playing).
-        playerAudio.clip = deathClip;
-        playerAudio.Play();
+        //playerAudio.clip = deathClip;
+        //playerAudio.Play();
 
         // Turn off the movement and shooting scripts.
-        playerMovement.enabled = false;
+        //playerMovement.enabled = false;
 
-        playerShooting.enabled = false;
+        //playerShooting.enabled = false;
+
+        playerMovement.enabled = false;
+        anim.CrossFade("knockdown_A", .01f);
+
     }
 }

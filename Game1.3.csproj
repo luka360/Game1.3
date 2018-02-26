@@ -309,15 +309,14 @@
     <Compile Include="Assets\_Scripts\Camera\CameraCollision.cs" />
     <Compile Include="Assets\_Scripts\Camera\CameraFollow.cs" />
     <Compile Include="Assets\_Scripts\Camera\OrbitCamera.cs" />
-    <Compile Include="Assets\_Scripts\Enemy\EnemyAttack.cs" />
     <Compile Include="Assets\_Scripts\Enemy\EnemyHealth.cs" />
+    <Compile Include="Assets\_Scripts\Enemy\EnemyHitCollider.cs" />
     <Compile Include="Assets\_Scripts\Enemy\EnemyMovement.cs" />
-    <Compile Include="Assets\_Scripts\Player\HitCollider.cs" />
     <Compile Include="Assets\_Scripts\Player\PlayerHealth.cs" />
+    <Compile Include="Assets\_Scripts\Player\PlayerHitCollider.cs" />
     <Compile Include="Assets\_Scripts\Player\PlayerMovement.cs" />
     <Compile Include="Assets\_Scripts\Player\PlayerShooting.cs" />
     <Compile Include="Assets\BlendTreeSMB.cs" />
-    <Compile Include="Assets\EnemyHitCollider.cs" />
     <Compile Include="Assets\PostProcessing\Runtime\Attributes\GetSetAttribute.cs" />
     <Compile Include="Assets\PostProcessing\Runtime\Attributes\MinAttribute.cs" />
     <Compile Include="Assets\PostProcessing\Runtime\Attributes\TrackballAttribute.cs" />
@@ -372,6 +371,7 @@
     <Compile Include="Assets\SampleScenes\Scripts\ParticleSceneControls.cs" />
     <Compile Include="Assets\SampleScenes\Scripts\PlaceTargetWithMouse.cs" />
     <Compile Include="Assets\SampleScenes\Scripts\SlowMoButton.cs" />
+    <Compile Include="Assets\Script\PlayAnimOnKeyUp.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\NatureStarterKit2\info.txt" />
@@ -422,6 +422,7 @@
     <None Include="Assets\Rocks and Boulders 2\Shaders\shader info.txt" />
     <None Include="Assets\Rocks and Boulders 2\readme.txt" />
     <None Include="Assets\SampleScenes\Shaders\Skybox-Procedural.shader" />
+    <None Include="Assets\Shader\Additive_Base.shader" />
     <None Include="Assets\Standard Assets\Cameras\CameraGuidelines.txt" />
     <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
     <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />

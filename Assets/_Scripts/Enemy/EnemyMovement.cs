@@ -7,14 +7,16 @@ using UnityEngine.AI;
 public class EnemyMovement : MonoBehaviour {
 
 	public Transform player;
-    public int startingHealth = 100;
+    public GameObject leftLegHC;
+    public GameObject rightLegHC;
+    public GameObject leftHandHC;
+    public GameObject rightHandHC;
     public float strikeRange = 1.0f;
+    public float timeBetweenAttacks = 2.0f;
 
     private NavMeshAgent navAgent;
 	private Animator _animator;
-    private int currentHealth;
     private float timer;
-    private float timeBetweenAttacks = 5.0f;
     private ParticleSystem hitParticles;
 
 	void Awake(){
@@ -22,8 +24,11 @@ public class EnemyMovement : MonoBehaviour {
 		navAgent = GetComponent<NavMeshAgent> ();
         _animator = GetComponent<Animator> ();
         hitParticles = GetComponentInChildren<ParticleSystem> ();
-        currentHealth = startingHealth;
-	}
+        leftLegHC.SetActive(false);
+        rightLegHC.SetActive(false);
+        leftHandHC.SetActive(false);
+        rightHandHC.SetActive(false);
+    }
 		
 	// Update is called once per frame
 	void Update () {
@@ -55,7 +60,7 @@ public class EnemyMovement : MonoBehaviour {
 
                 if (distance < 0.7f)
                 {
-                    MoveAway();
+                    _animator.SetBool("MoveAway", true);
                 }
                 else
                 {
@@ -75,51 +80,73 @@ public class EnemyMovement : MonoBehaviour {
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 5f);
     }
 
-    void MoveAway() {
-        _animator.SetBool("MoveAway", true);
-    }
-
-    public void TakeDamage(int amount, string hitType) {
-        currentHealth -= amount;
-
-        Debug.Log("Current health: " + currentHealth);
-
-        if (hitType.Equals("head"))
-        {
-            _animator.SetTrigger("HeadPunch");
-            hitParticles.Play();
-        }
-        else
-        {
-            _animator.SetTrigger("TorsoPunch");
-        }
-
-        if (currentHealth <= 0)
-        {
-            Debug.Log("Enemy dead.");
-            _animator.SetBool("Dead", true);
-        }
-    }
 
     void  Attack()
     {
         float hitType = Random.Range(0.0f, 4.0f);
-        //Debug.Log("Hit Type: " + hitType);
-       /* if (hitType <= 1.0f)
+
+        timer += Time.deltaTime;
+
+        if (timer >= timeBetweenAttacks)
         {
-            _animator.SetTrigger("LeftPunch");
+            if (hitType <= 1.0f)
+            {
+                _animator.SetTrigger("LeftPunch");
+            }
+            else if (hitType > 1.0f && hitType <= 2.0f)
+            {
+                _animator.SetTrigger("RightPunch");
+            }
+            else if (hitType > 2.0f && hitType <= 3.0f)
+            {
+                _animator.SetTrigger("LeftKick");
+            }
+            else
+            {
+                _animator.SetTrigger("RightKick");
+            }
+            Debug.Log("HitTypeString: " + hitType);
+            timer = 0;
         }
-        else if (hitType > 1.0f && hitType <= 2.0f)
+    }
+
+    public void EnableHitCollider(int hitType)
+    {
+        if (hitType == 1 && leftLegHC != null)
         {
-            _animator.SetTrigger("LeftKick");
+            leftLegHC.SetActive(true);
         }
-        else if (hitType > 2.0f && hitType <= 3.0f)
+        else if (hitType == 2 && rightLegHC != null)
         {
-            _animator.SetTrigger("RightPunch");
+            rightLegHC.SetActive(true);
         }
-        else
+        else if (hitType == 3 && leftHandHC != null)
         {
-            _animator.SetTrigger("RightKick");
-        }*/
+            leftHandHC.SetActive(true);
+        }
+        else if (hitType == 4 && rightHandHC != null)
+        {
+            rightHandHC.SetActive(true);
+        }
+    }
+
+    public void DisableHitCollider(int hitType)
+    {
+        if (hitType == 1 && leftLegHC != null)
+        {
+            leftLegHC.SetActive(false);
+        }
+        else if (hitType == 2 && rightLegHC != null)
+        {
+            rightLegHC.SetActive(false);
+        }
+        else if (hitType == 3 && leftHandHC != null)
+        {
+            leftHandHC.SetActive(false);
+        }
+        else if (hitType == 4 && rightHandHC != null)
+        {
+            rightHandHC.SetActive(false);
+        }
     }
 }

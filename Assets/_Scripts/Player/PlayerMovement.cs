@@ -11,111 +11,122 @@ using System.Threading;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour {
-	[SerializeField] private Transform target;
 
-	public float moveSpeed = 1.5f;
-	public float rotSpeed = 15.0f;
-	public float jumpSpeed = 15.0f;
-	public float gravity = -9.8f;
-	public float terminalVelocity = -20.0f;
-	public float minFall = -1.5f;
-	public float kickForce = 3.0f;
+    [SerializeField] private Transform target;
 
-	private float _vertSpeed;
-	private bool _isRunning;
-	private ControllerColliderHit _contact;
+    public float moveSpeed = 1.5f;
+    public float rotSpeed = 15.0f;
+    public float jumpSpeed = 15.0f;
+    public float gravity = -9.8f;
+    public float terminalVelocity = -20.0f;
+    public float minFall = -1.5f;
+    public float kickForce = 3.0f;
+    public GameObject leftLegHC;
+    public GameObject rightLegHC;
+    public GameObject leftHandHC;
+    public GameObject rightHandHC;
 
-	private CharacterController _charController;
-	private Animator _animator;
+    private float _vertSpeed;
+    private bool _isRunning;
+    private ControllerColliderHit _contact;
+    private CharacterController _charController;
+    private Animator _animator;
     private GameObject enemy;
 
-	// Use this for initialization
-	void Start() {
-		_vertSpeed = minFall;
 
-		_charController = GetComponent<CharacterController>();
-		_animator = GetComponent<Animator>();
+
+
+    // Use this for initialization
+    void Start() {
+        _vertSpeed = minFall;
+        _charController = GetComponent<CharacterController>();
+        _animator = GetComponent<Animator>();
         enemy = GameObject.FindGameObjectWithTag("Enemy");
-	}
+        leftLegHC.SetActive(false);
+        rightLegHC.SetActive(false);
+        leftHandHC.SetActive(false);
+        rightHandHC.SetActive(false);
 
-	// Update is called once per frame
-	void Update() {
+    }
 
-		// start with zero and add movement components progressively
-		Vector3 movement = Vector3.zero;
+    // Update is called once per frame
+    void Update() {
 
-		// x z movement transformed relative to target
-		float horInput = Input.GetAxis("Horizontal");
-		float vertInput = Input.GetAxis("Vertical");
-		if (horInput != 0 || vertInput != 0) {
-			if (Input.GetKey (KeyCode.LeftShift)) {
-				_isRunning = true;
-				//moveSpeed = 3.0f;
-			} else {
-				_isRunning = false;
-				//moveSpeed = 2.0f;
-			}
-			movement.x = horInput * moveSpeed;
-			movement.z = vertInput * moveSpeed;
-			movement = Vector3.ClampMagnitude(movement, moveSpeed);
+        // start with zero and add movement components progressively
+        Vector3 movement = Vector3.zero;
 
-			Quaternion tmp = target.rotation;
-			target.eulerAngles = new Vector3(0, target.eulerAngles.y, 0);
-			movement = target.TransformDirection(movement);
-			target.rotation = tmp;
+        // x z movement transformed relative to target
+        float horInput = Input.GetAxis("Horizontal");
+        float vertInput = Input.GetAxis("Vertical");
+        if (horInput != 0 || vertInput != 0) {
+            if (Input.GetKey(KeyCode.LeftShift)) {
+                _isRunning = true;
+                //moveSpeed = 3.0f;
+            } else {
+                _isRunning = false;
+                //moveSpeed = 2.0f;
+            }
+            movement.x = horInput * moveSpeed;
+            movement.z = vertInput * moveSpeed;
+            movement = Vector3.ClampMagnitude(movement, moveSpeed);
 
-			//face movement direction
-			//transform.rotation = Quaternion.LookRotation(movement);
-			Quaternion direction = Quaternion.LookRotation(movement);
-			transform.rotation = Quaternion.Lerp(transform.rotation,
-				direction, rotSpeed * Time.deltaTime);
-		}
-		_animator.SetBool ("Running", _isRunning);
-		_animator.SetFloat("Speed", movement.sqrMagnitude);
+            Quaternion tmp = target.rotation;
+            target.eulerAngles = new Vector3(0, target.eulerAngles.y, 0);
+            movement = target.TransformDirection(movement);
+            target.rotation = tmp;
+
+            //face movement direction
+            //transform.rotation = Quaternion.LookRotation(movement);
+            Quaternion direction = Quaternion.LookRotation(movement);
+            transform.rotation = Quaternion.Lerp(transform.rotation,
+                direction, rotSpeed * Time.deltaTime);
+        }
+        _animator.SetBool("Running", _isRunning);
+        _animator.SetFloat("Speed", movement.sqrMagnitude);
 
 
-		// raycast down to address steep slopes and dropoff edge
-		bool hitGround = false;
-		RaycastHit hit;
-		if (_vertSpeed < 0 && Physics.Raycast(transform.position, Vector3.down, out hit)) {
-			float check = (_charController.height + _charController.radius) / 1.9f;
-			hitGround = hit.distance <= check;	// to be sure check slightly beyond bottom of capsule
-		}
+        // raycast down to address steep slopes and dropoff edge
+        bool hitGround = false;
+        RaycastHit hit;
+        if (_vertSpeed < 0 && Physics.Raycast(transform.position, Vector3.down, out hit)) {
+            float check = (_charController.height + _charController.radius) / 1.9f;
+            hitGround = hit.distance <= check;  // to be sure check slightly beyond bottom of capsule
+        }
 
-		// y movement: possibly jump impulse up, always accel down
-		// could _charController.isGrounded instead, but then cannot workaround dropoff edge
-		if (hitGround) {
-			if (Input.GetButtonDown("Jump")) {
-				_animator.SetBool("Jumping", true);
-				_vertSpeed = jumpSpeed;
-			} else {
-				_vertSpeed = minFall;
-				_animator.SetBool("Jumping", false);
-			}
-		} else {
-			_vertSpeed += gravity * 5 * Time.deltaTime;
-			if (_vertSpeed < terminalVelocity) {
-				_vertSpeed = terminalVelocity;
-			}
-			if (_contact != null ) {	// not right at level start
-				_animator.SetBool("Jumping", true);
-			}
+        // y movement: possibly jump impulse up, always accel down
+        // could _charController.isGrounded instead, but then cannot workaround dropoff edge
+        if (hitGround) {
+            if (Input.GetButtonDown("Jump")) {
+                _animator.SetBool("Jumping", true);
+                _vertSpeed = jumpSpeed;
+            } else {
+                _vertSpeed = minFall;
+                _animator.SetBool("Jumping", false);
+            }
+        } else {
+            _vertSpeed += gravity * 5 * Time.deltaTime;
+            if (_vertSpeed < terminalVelocity) {
+                _vertSpeed = terminalVelocity;
+            }
+            if (_contact != null) { // not right at level start
+                _animator.SetBool("Jumping", true);
+            }
 
-			// workaround for standing on dropoff edge
-			if (_charController.isGrounded) {
-				if (Vector3.Dot(movement, _contact.normal) < 0) {
-					movement = _contact.normal * moveSpeed;
-				} else {
-					movement += _contact.normal * moveSpeed;
-				}
-			}
-		}
-		movement.y = _vertSpeed;
+            // workaround for standing on dropoff edge
+            if (_charController.isGrounded) {
+                if (Vector3.Dot(movement, _contact.normal) < 0) {
+                    movement = _contact.normal * moveSpeed;
+                } else {
+                    movement += _contact.normal * moveSpeed;
+                }
+            }
+        }
+        movement.y = _vertSpeed;
 
-		movement *= Time.deltaTime;
-		_charController.Move(movement);
+        movement *= Time.deltaTime;
+        _charController.Move(movement);
 
-		if (Input.GetKey(KeyCode.H)) {
+        if (Input.GetKey(KeyCode.H) || Input.GetMouseButtonDown(0)) {
 			_animator.SetBool ("Jab_left", true);
 		}
 
@@ -127,7 +138,7 @@ public class PlayerMovement : MonoBehaviour {
 			_animator.SetBool ("SK_left", true);
 		}
 
-		if (Input.GetKey(KeyCode.N)) {
+		if (Input.GetKey(KeyCode.N) || Input.GetMouseButtonDown(1)) {
 			_animator.SetBool ("LK_right", true);
 		}
 
@@ -150,4 +161,43 @@ public class PlayerMovement : MonoBehaviour {
 		_animator.SetBool ("LK_right", false);
 		_animator.SetBool ("SK_left", false);
 	}
+
+    public void EnableHitCollider(int hitType) {
+        if (hitType == 1 && leftLegHC != null)
+        {
+            leftLegHC.SetActive(true);
+        }
+        else if (hitType == 2 && rightLegHC != null)
+        {
+            rightLegHC.SetActive(true);
+        }
+        else if (hitType == 3 && leftHandHC != null)
+        {
+            leftHandHC.SetActive(true);
+        }
+        else if (hitType == 4 && rightHandHC != null)
+        {
+            rightHandHC.SetActive(true);
+        }
+    }
+
+    public void DisableHitCollider(int hitType)
+    {
+        if (hitType == 1 && leftLegHC != null)
+        {
+            leftLegHC.SetActive(false);
+        }
+        else if (hitType == 2 && rightLegHC != null)
+        {
+            rightLegHC.SetActive(false);
+        }
+        else if (hitType == 3 && leftHandHC != null)
+        {
+            leftHandHC.SetActive(false);
+        }
+        else if (hitType == 4 && rightHandHC != null)
+        {
+            rightHandHC.SetActive(false);
+        }
+    }
 }
